@@ -30,7 +30,7 @@ const Navbar = () => {
             <Link href="/notificaciones" className="text-white hover:underline">
               Notificaciones
             </Link>
-            <Link href="/inventario" className="text-white hover:underline">
+            <Link href="/inventarios" className="text-white hover:underline">
               Inventario
             </Link>
             <Link href="/pagos" className="text-white hover:underline">
