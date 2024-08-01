@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const usePrestamos = () => {
-  const [prestamos, setPrestamos] = useState([]);
+const usePagos = () => {
+  const [pagos, setPagos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchPrestamos = async () => {
+  const fetchPagos = async () => {
     setLoading(true);
     try {
-      const prestamosResponse = await axios.get('/api/prestamos');
-      const prestamosData = prestamosResponse.data;
+      const pagosResponse = await axios.get('/api/pagos');
+      const pagosData = pagosResponse.data;
 
       const [usuariosResponse, librosResponse] = await axios.all([
         axios.get('/api/usuarios'),
@@ -20,17 +20,17 @@ const usePrestamos = () => {
       const usuarios = usuariosResponse.data;
       const libros = librosResponse.data;
 
-      const prestamosWithDetails = prestamosData.map((prestamo) => {
-        const usuario = usuarios.find((user) => user.id === prestamo.usuarioId);
-        const libro = libros.find((book) => book.id === prestamo.libroId);
+      const pagosWithDetails = pagosData.map((pago) => {
+        const usuario = usuarios.find((user) => user.id === pago.usuarioId);
+        const libro = libros.find((book) => book.id === pago.libroId);
         return {
-          ...prestamo,
+          ...pago,
           usuarioNombre: usuario ? usuario.nombre : 'Usuario desconocido',
           libroTitulo: libro ? libro.titulo : 'Libro desconocido',
         };
       });
 
-      setPrestamos(prestamosWithDetails);
+      setPagos(pagosWithDetails);
     } catch (err) {
       setError(err);
     } finally {
@@ -38,11 +38,11 @@ const usePrestamos = () => {
     }
   };
 
-  const addPrestamo = async (prestamo) => {
+  const addPago = async (pago) => {
     setLoading(true);
     try {
-      await axios.post('/api/prestamos/crear', prestamo);
-      fetchPrestamos();
+      await axios.post('/api/pagos/crear', pago);
+      fetchPagos();
     } catch (err) {
       setError(err);
     } finally {
@@ -50,11 +50,11 @@ const usePrestamos = () => {
     }
   };
 
-  const updatePrestamo = async (id, prestamo) => {
+  const updatePago = async (id, pago) => {
     setLoading(true);
     try {
-      await axios.put(`/api/prestamos/editar/${id}`, prestamo);
-      fetchPrestamos();
+      await axios.put(`/api/pagos/editar/${id}`, pago);
+      fetchPagos();
     } catch (err) {
       setError(err);
     } finally {
@@ -62,11 +62,11 @@ const usePrestamos = () => {
     }
   };
 
-  const deletePrestamo = async (id) => {
+  const deletePago = async (id) => {
     setLoading(true);
     try {
-      await axios.delete(`/api/prestamos/eliminar/${id}`);
-      fetchPrestamos();
+      await axios.delete(`/api/pagos/eliminar/${id}`);
+      fetchPagos();
     } catch (err) {
       setError(err);
     } finally {
@@ -75,17 +75,17 @@ const usePrestamos = () => {
   };
 
   useEffect(() => {
-    fetchPrestamos();
+    fetchPagos();
   }, []);
 
   return {
-    prestamos,
+    pagos,
     loading,
     error,
-    addPrestamo,
-    updatePrestamo,
-    deletePrestamo,
+    addPago,
+    updatePago,
+    deletePago,
   };
 };
 
-export default usePrestamos;
+export default usePagos;

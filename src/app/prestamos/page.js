@@ -3,14 +3,15 @@
 import { useState } from 'react';
 import usePrestamos from '@/hooks/usePrestamos';
 import PrestamoForm from '@/components/PrestamoForm';
-import { FaEdit, FaTrash, FaPlus, FaBook } from 'react-icons/fa';
-
+import { FaEdit, FaTrash, FaPlus, FaHandHolding } from 'react-icons/fa';
+import Loader from '@/components/Loader';
 const PrestamosPage = () => {
   const { prestamos, loading, error, addPrestamo, updatePrestamo, deletePrestamo } = usePrestamos();
   const [showModal, setShowModal] = useState(false);
   const [selectedPrestamo, setSelectedPrestamo] = useState(null);
 
-  if (loading) return <p>Cargando...</p>;
+
+  if (loading) return <Loader/>;
   if (error) return <p>Error: {error.message}</p>;
 
   const handleAddClick = () => {
@@ -38,9 +39,9 @@ const PrestamosPage = () => {
         {prestamos.map((prestamo) => (
           <div key={prestamo.id} className="p-4 border rounded-md shadow-md bg-white">
             <div className="flex items-center space-x-2">
-              <FaBook className="text-gray-700 text-3xl" />
+              <FaHandHolding className="text-gray-700 text-3xl" />
               <div>
-                <p className="text-xl font-bold">{prestamo.usuarioNombre}</p>
+                <p className="text-xl font-bold">Destinatario: {prestamo.usuarioNombre}</p>
                 <p className="text-gray-600">{prestamo.libroTitulo}</p>
                 <p className="text-gray-600">Fecha de Préstamo: {new Date(prestamo.fechaPrestamo).toLocaleDateString()}</p>
                 <p className="text-gray-600">Fecha de Devolución: {new Date(prestamo.fechaDevolucion).toLocaleDateString()}</p>

@@ -4,13 +4,14 @@ import { useState } from 'react';
 import useUsuarios from '@/hooks/useUsuarios';
 import UsuarioForm from '@/components/UsuarioForm';
 import { FaUserEdit, FaTrash, FaUserPlus, FaUser } from 'react-icons/fa';
-
+import Loader from '@/components/Loader';
 const UsuariosPage = () => {
   const { usuarios, loading, error, addUsuario, updateUsuario, deleteUsuario } = useUsuarios();
   const [showModal, setShowModal] = useState(false);
   const [selectedUsuario, setSelectedUsuario] = useState(null);
 
-  if (loading) return <p>Cargando...</p>;
+
+  if (loading) return <Loader/>;
   if (error) return <p>Error: {error.message}</p>;
 
   const handleAddClick = () => {
